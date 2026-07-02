@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roblox Type or Die Quick Answers</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: rgba(255, 255, 255, 0.08);
+      --panel-strong: rgba(255, 255, 255, 0.13);
+      --text: #f8fafc;
+      --muted: #a8b3cf;
+      --line: rgba(255, 255, 255, 0.16);
+      --accent: #35e0a1;
+      --accent-2: #7c5cff;
+      --danger: #ff5876;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(124, 92, 255, 0.42), transparent 34rem),
+        radial-gradient(circle at bottom right, rgba(53, 224, 161, 0.28), transparent 31rem),
+        linear-gradient(135deg, #07101e 0%, #111832 50%, #090d1a 100%);
+      padding: 24px;
+    }
+
+    .app {
+      width: min(1040px, 100%);
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: grid;
+      gap: 16px;
+      margin: 22px 0 20px;
+    }
+
+    .badge {
+      width: fit-content;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.2px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 6vw, 72px);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(16px, 2.5vw, 20px);
+      max-width: 760px;
+      line-height: 1.5;
+    }
+
+    .search-card {
+      position: sticky;
+      top: 14px;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(9, 13, 26, 0.82);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      font-size: clamp(18px, 3vw, 26px);
+      padding: 16px 18px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: rgba(53, 224, 161, 0.8);
+      box-shadow: 0 0 0 4px rgba(53, 224, 161, 0.14);
+    }
+
+    button {
+      border: 0;
+      border-radius: 15px;
+      padding: 15px 18px;
+      font-weight: 800;
+      color: #051017;
+      cursor: pointer;
+      background: var(--accent);
+      transition: transform 120ms ease, filter 120ms ease, opacity 120ms ease;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      filter: brightness(1.06);
+    }
+
+    button:active {
+      transform: translateY(1px) scale(0.99);
+    }
+
+    .clear-btn {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid var(--line);
+    }
+
+    .copy-top {
+      background: linear-gradient(135deg, var(--accent), #9effd5);
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin: 16px 2px 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .kbd {
+      border: 1px solid var(--line);
+      padding: 3px 7px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .results {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 50px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: minmax(140px, 250px) 1fr auto;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 19px;
+      padding: 14px;
+    }
+
+    .row:first-child {
+      background: linear-gradient(135deg, rgba(53, 224, 161, 0.18), rgba(124, 92, 255, 0.14));
+      border-color: rgba(53, 224, 161, 0.45);
+    }
+
+    .word {
+      color: #d7def3;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: none;
+    }
+
+    .answer {
+      font-size: clamp(19px, 3vw, 30px);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      overflow-wrap: anywhere;
+    }
+
+    .copy-btn {
+      min-width: 86px;
+    }
+
+    .empty {
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 28px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      background: #f8fafc;
+      color: #07101e;
+      padding: 12px 16px;
+      border-radius: 999px;
+      font-weight: 900;
+      box-shadow: var(--shadow);
+      transition: opacity 150ms ease, transform 150ms ease;
+      z-index: 20;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding: 14px;
+      }
+
+      .search-card {
+        grid-template-columns: 1fr;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-btn,
+      .copy-top,
+      .clear-btn {
+        width: 100%;
+      }
+
+      .meta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="hero">
+      <div class="badge">Fast Roblox helper</div>
+      <h1>Roblox Type or Die</h1>
+      <p class="subtitle">Start typing the word on the left. Two-word prompts work from either word. Matching answers appear instantly, with copy buttons built for speed.</p>
+    </section>
+
+    <section class="search-card" aria-label="Search answers">
+      <input id="searchInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type prompt here... e.g. car, food, color" autofocus />
+      <button class="clear-btn" id="clearBtn" type="button">Clear</button>
+      <button class="copy-top" id="copyTopBtn" type="button">Copy Top</button>
+    </section>
+
+    <div class="meta">
+      <div id="countText">Showing all answers</div>
+      <div><span class="kbd">Enter</span> copies top answer · <span class="kbd">Esc</span> clears</div>
+    </div>
+
+    <section class="results" id="results"></section>
+  </main>
+
+  <div class="toast" id="toast">Copied</div>
+
+  <script>
+    const ANSWERS = [
+      { word: "soda", answer: "monster energy drink" },
+      { word: "Youtuber", answer: "Kids Channel India Hindi rhymes and baby songs", aliases: "youtube youtuber" },
+      { word: "Bear", answer: "North American Black Bear" },
+      { word: "Pizza topping", answer: "Roasted green pepper" },
+      { word: "Breakfast food", answer: "Breakfast sandwich" },
+      { word: "Freezer", answer: "Ice cream sandwiches" },
+      { word: "nut", answer: "Marcona almond" },
+      { word: "ocean", answer: "Continental fault lines" },
+      { word: "ball", answer: "american football" },
+      { word: "sport", answer: "american football" },
+      { word: "day", answer: "Wednesday" },
+      { word: "month", answer: "september" },
+      { word: "scooby", answer: "Norvile rogers" },
+      { word: "Ice cream", answer: "Chocolate chip cookie dough" },
+      { word: "Movie", answer: "the chronicles of narnia the lion the witch and the wardrobe" },
+      { word: "climb", answer: "Jomolharichomolhari" },
+      { word: "waiting", answer: "Unemployment office" },
+      { word: "quiet", answer: "Doctors office" },
+      { word: "cars charachter", answer: "Dinoco transport helicopter", aliases: "cars character car character" },
+      { word: "shape", answer: "Rectangular prism" },
+      { word: "sonic", answer: "sonic the hedgehog" },
+      { word: "animal", answer: "ruby-throated humming bird" },
+      { word: "room", answer: "master bedroom" },
+      { word: "bedroom", answer: "phone charger" },
+      { word: "playground", answer: "drinking fountain" },
+      { word: "minecraft", answer: "polished blackstone pressure plate" },
+      { word: "car", answer: "acura honda motor company" },
+      { word: "snow", answer: "go snowboarding" },
+      { word: "vegtable", answer: "Brussel sprouts", aliases: "vegetable vegtable" },
+      { word: "sharp", answer: "Kitchen knife" },
+      { word: "eat food", answer: "Butter knife" },
+      { word: "car color", answer: "metallic gasoline blue green", aliases: "car colour color colour" },
+      { word: "fruit", answer: "american elder berry" },
+      { word: "road", answer: "emergency response vehicles" },
+      { word: "cold", answer: "chocolate icecream" },
+      { word: "roblox", answer: "natural disaster survival" },
+      { word: "board game", answer: "Monopoly electronic banking edition" },
+      { word: "console", answer: "super nintendo entertainment system" },
+      { word: "topping", answer: "american cheese" },
+      { word: "school subject", answer: "differential equations" },
+      { word: "fast food", answer: "kentucky fried chicken" },
+      { word: "music", answer: "beats headphones" },
+      { word: "keep in car", answer: "drivers licence" },
+      { word: "wallet", answer: "drivers licence" },
+      { word: "color", answer: "Magenta", aliases: "colour color" },
+      { word: "skittles", answer: "bright yellow" },
+      { word: "time", answer: "grandfather clock" },
+      { word: "billionare", answer: "francoise betten court meyers", aliases: "billionaire billionare" },
+      { word: "song", answer: "what can you get a wookie for christmas when he already owns a comb" },
+      { word: "phone", answer: "straight talk" }
+    ];
+
+    const input = document.getElementById("searchInput");
+    const results = document.getElementById("results");
+    const clearBtn = document.getElementById("clearBtn");
+    const copyTopBtn = document.getElementById("copyTopBtn");
+    const countText = document.getElementById("countText");
+    const toast = document.getElementById("toast");
+
+    function normalise(value) {
+      return String(value).toLowerCase().replace(/\s+/g, " ").trim();
+    }
+
+    function score(item, query) {
+      const q = normalise(query);
+      if (!q) return 1;
+
+      const word = normalise(item.word);
+      const searchText = normalise(`${item.word} ${item.aliases || ""}`);
+      const queryParts = q.split(" ").filter(Boolean);
+      const targetParts = searchText.split(" ").filter(Boolean);
+
+      if (word === q) return 1000;
+      if (word.startsWith(q)) return 950;
+      if (word.includes(q)) return 900;
+
+      const allPartsMatch = queryParts.every(part =>
+        targetParts.some(target => target === part || target.startsWith(part) || target.includes(part))
+      );
+
+      if (allPartsMatch) {
+        const firstPartStarts = targetParts.some(target => target.startsWith(queryParts[0]));
+        return firstPartStarts ? 850 : 780;
+      }
+
+      return 0;
+    }
+
+    function getMatches() {
+      const query = input.value;
+      return ANSWERS
+        .map((item, index) => ({ ...item, index, matchScore: score(item, query) }))
+        .filter(item => item.matchScore > 0)
+        .sort((a, b) => b.matchScore - a.matchScore || a.index - b.index);
+    }
+
+    function render() {
+      const matches = getMatches();
+      const query = input.value.trim();
+      results.innerHTML = "";
+
+      countText.textContent = query
+        ? `${matches.length} answer${matches.length === 1 ? "" : "s"} found`
+        : "Showing all answers";
+
+      copyTopBtn.disabled = matches.length === 0;
+      copyTopBtn.style.opacity = matches.length === 0 ? "0.45" : "1";
+
+      if (matches.length === 0) {
+        results.innerHTML = `<div class="empty">No answer found. Check the prompt word spelling, then try again.</div>`;
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+
+      matches.forEach((item, i) => {
+        const row = document.createElement("article");
+        row.className = "row";
+        row.innerHTML = `
+          <div class="word">${escapeHtml(item.word)}</div>
+          <div class="answer">${escapeHtml(item.answer)}</div>
+          <button class="copy-btn" type="button" data-answer="${escapeHtml(item.answer)}">Copy</button>
+        `;
+        fragment.appendChild(row);
+      });
+
+      results.appendChild(fragment);
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (error) {
+        const temp = document.createElement("textarea");
+        temp.value = text;
+        temp.style.position = "fixed";
+        temp.style.left = "-9999px";
+        document.body.appendChild(temp);
+        temp.focus();
+        temp.select();
+        document.execCommand("copy");
+        temp.remove();
+      }
+      showToast(`Copied: ${text}`);
+      input.focus();
+      input.select();
+    }
+
+    function showToast(message) {
+      toast.textContent = message.length > 62 ? message.slice(0, 59) + "..." : message;
+      toast.classList.add("show");
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => toast.classList.remove("show"), 850);
+    }
+
+    input.addEventListener("input", render);
+
+    clearBtn.addEventListener("click", () => {
+      input.value = "";
+      render();
+      input.focus();
+    });
+
+    copyTopBtn.addEventListener("click", () => {
+      const top = getMatches()[0];
+      if (top) copyText(top.answer);
+    });
+
+    results.addEventListener("click", event => {
+      const button = event.target.closest("button[data-answer]");
+      if (!button) return;
+      copyText(button.dataset.answer);
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        const top = getMatches()[0];
+        if (top) copyText(top.answer);
+      }
+      if (event.key === "Escape") {
+        input.value = "";
+        render();
+        input.focus();
+      }
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        input.focus();
+        input.select();
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>
